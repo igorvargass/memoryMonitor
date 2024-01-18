@@ -1,9 +1,9 @@
 import psutil
 import time
-import pyInstaller
+import os.path
 
 # Função para iniciar monitoramento de memória
-def monitorar_memoria(pid, intervalo=1):
+def monitorar_memoria(pid):
     processo = psutil.Process(pid)
 
     print(f"Monitorando a memória do processo {pid}...")
@@ -26,6 +26,8 @@ def monitorar_memoria(pid, intervalo=1):
 if __name__ == "__main__":
     # Insira o PID do processo que você deseja monitorar
     pid_alvo = int(input("Digite o PID do processo a ser monitorado: "))
+    # Insira o tempo de intervalo de recebimento de dados
+    intervalo = float(input("Digite o intervalo desejado (em segundos):"))
 
     # Verificar se o PID é válido
     if psutil.pid_exists(pid_alvo):
