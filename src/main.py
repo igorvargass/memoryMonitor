@@ -1,6 +1,6 @@
 import psutil
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # Salvando em arquivo .log
 def savefile(ftxt, fname, fprocess):
@@ -15,6 +15,9 @@ def monitorar_memoria(pid, intervalo):
     processo = psutil.Process(pid)
 
     print(f"Monitorando a memoria do processo {pid}...")
+
+    # Inicializa a última marcação de hora
+    ultima_marca = datetime.now()
 
     try:
         while True:
@@ -32,6 +35,13 @@ def monitorar_memoria(pid, intervalo):
             # Salvar informações no arquivo
             savefile(dado1, nome_pid, str(pid))
             savefile(dado2, nome_pid, str(pid))
+
+            # Verificar se passou 1 hora desde a última marcação
+            if datetime.now() - ultima_marca > timedelta(hours=1):
+                marca = f"Marcacao de hora: {datetime.now().strftime('%H:%M:%S')}"
+                print(marca)
+                savefile(marca, nome_pid, str(pid))
+                ultima_marca = datetime.now()
 
             # Aguardar o próximo intervalo
             time.sleep(intervalo)
